@@ -6,8 +6,7 @@ Imports ConvertSIDByteArayToSIDStirng.My
 'https://www.codeproject.com/Articles/303160/Converting-a-SID-in-Array-of-bytes-to-String-versi#_comments
 'License: https://www.codeproject.com/info/cpol10.aspx
 
-'1,5,0,0,0,0,0,5,21,0,0,0,213,142,2,34,86,100,158,107,112,120,52,41,246,3,0,0
-'1,2,0,0,0,0,0,5,32,0,0,0,32,2,0,0
+
 Partial Public Class AboutBox1
 
     Private Sub AboutBox1_Load(sender As Object, e As EventArgs)
