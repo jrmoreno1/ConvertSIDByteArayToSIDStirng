@@ -15,6 +15,9 @@ Imports System.Text
 '1,2,0,0,0,0,0,5,32,0,0,0,32,2,0,0
 'S-1-5-32-544
 
+'1,2,0,0,0,0,0,5,32,0,0,0,34,2,0,0
+'S-1-5-32-546
+
 Public Class Form1
 
     Private Sub btnConvert_Click(ByVal sender As System.Object,
@@ -67,38 +70,21 @@ Public Class Form1
     End Function
 
     Private Sub UICount1(SidByteCol As ICollection(Of Byte))
-        tbRevision.Text = SidByteCol(0).ToString()
-        tbSubIDCount.Text = SidByteCol(1).ToString()
-        'Text boxes SID_IDENTIFIER_AUTHORITY
-        tbIA1.Text = SidByteCol(2).ToString()
-        tbIA2.Text = SidByteCol(3).ToString()
-        tbIA3.Text = SidByteCol(4).ToString()
-        tbIA4.Text = SidByteCol(5).ToString()
-        tbIA5.Text = SidByteCol(6).ToString()
-        tbIA6.Text = SidByteCol(7).ToString()
-        'Text boxes sub 1
-        tb1ID1.Text = SidByteCol(8).ToString()
-        tb1ID2.Text = SidByteCol(9).ToString()
-        tb1ID3.Text = SidByteCol(10).ToString()
-        tb1ID4.Text = SidByteCol(11).ToString()
+        SetBoxesSub1(SidByteCol)
+
+        ClearBoxesSub2()
+        ClearBoxesSub3()
+        ClearBoxesSub4()
+        ClearBoxesSub5()
+    End Sub
+
+    Private Sub ClearBoxesSub2()
 
         ' Text boxes Sub 2
         tb2ID1.Text = "x"
         tb2ID2.Text = "x"
         tb2ID3.Text = "x"
-        tb2ID4.Text = "x" ' Text boxes Sub 3
-        tb3ID1.Text = "x"
-        tb3ID2.Text = "x"
-        tb3ID3.Text = "x"
-        tb3ID4.Text = "x" ' Text boxes Sub 4
-        tb4ID1.Text = "x"
-        tb4ID2.Text = "x"
-        tb4ID3.Text = "x"
-        tb4ID4.Text = "x" ' Tex boxes Sub 5
-        tb5ID1.Text = "x"
-        tb5ID2.Text = "x"
-        tb5ID3.Text = "x"
-        tb5ID4.Text = "x" 'IA Math
+        tb2ID4.Text = "x"
     End Sub
 
     Private Function sCount2(SidByteCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
@@ -121,39 +107,32 @@ Public Class Form1
 
     Private Sub UICount2(SidByteCol As ICollection(Of Byte))
 
-        tbRevision.Text = SidByteCol(0).ToString()
-        tbSubIDCount.Text = SidByteCol(1).ToString()
-        'Text boxes SID_IDENTIFIER_AUTHORITY
-        tbIA1.Text = SidByteCol(2).ToString()
-        tbIA2.Text = SidByteCol(3).ToString()
-        tbIA3.Text = SidByteCol(4).ToString()
-        tbIA4.Text = SidByteCol(5).ToString()
-        tbIA5.Text = SidByteCol(6).ToString()
-        tbIA6.Text = SidByteCol(7).ToString()
-        'Text boxes sub 1
-        tb1ID1.Text = SidByteCol(8).ToString()
-        tb1ID2.Text = SidByteCol(9).ToString()
-        tb1ID3.Text = SidByteCol(10).ToString()
-        tb1ID4.Text = SidByteCol(11).ToString()
+        SetBoxesSub1(SidByteCol)
 
-        ' Text boxes Sub 2
-        tb2ID1.Text = SidByteCol(12).ToString()
-        tb2ID2.Text = SidByteCol(13).ToString()
-        tb2ID3.Text = SidByteCol(14).ToString()
-        tb2ID4.Text = SidByteCol(15).ToString()
+        SetBoxesSub2(SidByteCol)
+
+        ClearBoxesSub3()
+        ClearBoxesSub4()
+        ClearBoxesSub5()
+
+    End Sub
+
+    Private Sub ClearBoxesSub3()
+
         ' Text boxes Sub 3
         tb3ID1.Text = "x"
         tb3ID2.Text = "x"
         tb3ID3.Text = "x"
-        tb3ID4.Text = "x" ' Text boxes Sub 4
+        tb3ID4.Text = "x"
+    End Sub
+
+    Private Sub ClearBoxesSub4()
+
+        ' Text boxes Sub 4
         tb4ID1.Text = "x"
         tb4ID2.Text = "x"
         tb4ID3.Text = "x"
-        tb4ID4.Text = "x" ' Tex boxes Sub 5
-        tb5ID1.Text = "x"
-        tb5ID2.Text = "x"
-        tb5ID3.Text = "x"
-        tb5ID4.Text = "x" 'IA Math
+        tb4ID4.Text = "x"
     End Sub
 
     Private Function sCount3(SidByteCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
@@ -174,46 +153,17 @@ Public Class Form1
     End Function
 
     Private Sub UICount3(SidByteCol As ICollection(Of Byte))
-        tbRevision.Text = SidByteCol(0).ToString()
-        tbSubIDCount.Text = SidByteCol(1).ToString()
-        'Text boxes SID_IDENTIFIER_AUTHORITY
-        tbIA1.Text = SidByteCol(2).ToString()
-        tbIA2.Text = SidByteCol(3).ToString()
-        tbIA3.Text = SidByteCol(4).ToString()
-        tbIA4.Text = SidByteCol(5).ToString()
-        tbIA5.Text = SidByteCol(6).ToString()
-        tbIA6.Text = SidByteCol(7).ToString()
-        'Text boxes sub 1
-        tb1ID1.Text = SidByteCol(8).ToString()
-        tb1ID2.Text = SidByteCol(9).ToString()
-        tb1ID3.Text = SidByteCol(10).ToString()
-        tb1ID4.Text = SidByteCol(11).ToString()
+        SetBoxesSub1(SidByteCol)
 
-        ' Text boxes Sub 2
-        tb2ID1.Text = SidByteCol(12).ToString()
-        tb2ID2.Text = SidByteCol(13).ToString()
-        tb2ID3.Text = SidByteCol(14).ToString()
-        tb2ID4.Text = SidByteCol(15).ToString()
-        ' Text boxes Sub 3
-        tb3ID1.Text = SidByteCol(16).ToString()
-        tb3ID2.Text = SidByteCol(17).ToString()
-        tb3ID3.Text = SidByteCol(18).ToString()
-        tb3ID4.Text = SidByteCol(19).ToString()
-        ' Text boxes Sub 4
-        tb4ID1.Text = "x"
-        tb4ID2.Text = "x"
-        tb4ID3.Text = "x"
-        tb4ID4.Text = "x" ' Tex boxes Sub 5
-        tb5ID1.Text = "x"
-        tb5ID2.Text = "x"
-        tb5ID3.Text = "x"
-        tb5ID4.Text = "x" 'IA Math
+        SetBoxesSub2(SidByteCol)
+        SetBoxesSub3(SidByteCol)
+
+        ClearBoxesSub4()
+        ClearBoxesSub5()
     End Sub
 
     Private Function sCount4(SidByteCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
-
-
             updateUI?.Invoke(SidByteCol)
 
             Dim b1 As Double = SidByteCol(0)         ' Revision Number           1 byte     
@@ -223,7 +173,6 @@ Public Class Form1
             Dim Sub3Math = GetSub3Math(SidByteCol)
             Dim Sub4Math = GetSub4Math(SidByteCol)
 
-
             Return $"S-{b1}-{strIAMath}-{Sub1Math}-{Sub2Math}-{Sub3Math}-{Sub4Math}"
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
@@ -232,37 +181,17 @@ Public Class Form1
     End Function
 
     Private Sub UICount4(SidByteCol As ICollection(Of Byte))
-        tbRevision.Text = SidByteCol(0).ToString()
-        tbSubIDCount.Text = SidByteCol(1).ToString()
-        'Text boxes SID_IDENTIFIER_AUTHORITY
-        tbIA1.Text = SidByteCol(2).ToString()
-        tbIA2.Text = SidByteCol(3).ToString()
-        tbIA3.Text = SidByteCol(4).ToString()
-        tbIA4.Text = SidByteCol(5).ToString()
-        tbIA5.Text = SidByteCol(6).ToString()
-        tbIA6.Text = SidByteCol(7).ToString()
-        'Text boxes sub 1
-        tb1ID1.Text = SidByteCol(8).ToString()
-        tb1ID2.Text = SidByteCol(9).ToString()
-        tb1ID3.Text = SidByteCol(10).ToString()
-        tb1ID4.Text = SidByteCol(11).ToString()
+        SetBoxesSub1(SidByteCol)
 
-        ' Text boxes Sub 2
-        tb2ID1.Text = SidByteCol(12).ToString()
-        tb2ID2.Text = SidByteCol(13).ToString()
-        tb2ID3.Text = SidByteCol(14).ToString()
-        tb2ID4.Text = SidByteCol(15).ToString()
-        ' Text boxes Sub 3
-        tb3ID1.Text = SidByteCol(16).ToString()
-        tb3ID2.Text = SidByteCol(17).ToString()
-        tb3ID3.Text = SidByteCol(18).ToString()
-        tb3ID4.Text = SidByteCol(19).ToString()
-        ' Text boxes Sub 4
-        tb4ID1.Text = SidByteCol(20).ToString()
-        tb4ID2.Text = SidByteCol(21).ToString()
-        tb4ID3.Text = SidByteCol(22).ToString()
-        tb4ID4.Text = SidByteCol(23).ToString()
-        ' Tex boxes Sub 5
+        SetBoxesSub2(SidByteCol)
+        SetBoxesSub3(SidByteCol)
+        SetBoxesSub4(SidByteCol)
+        ClearBoxesSub5()
+    End Sub
+
+    Private Sub ClearBoxesSub5()
+
+        ' Text boxes Sub 5
         tb5ID1.Text = "x"
         tb5ID2.Text = "x"
         tb5ID3.Text = "x"
@@ -335,12 +264,12 @@ Public Class Form1
         Sub1Math = SidByteCol(11)                      ' Starts From The Right
         Sub1Math = (Sub1Math * 256) + SidByteCol(10)
         Sub1Math = (Sub1Math * 256) + SidByteCol(9)
-        Sub1Math = (Sub1Math * 256) + SidByteCol(8)    ' Sub Authority 1  
+        Sub1Math = (Sub1Math * 256) + SidByteCol(8)    ' Sub Authority 1           4 bytes (8,9,10,11)  
         Return Sub1Math
     End Function
 
     Private Function GetStrIaMath(SidByteCol As ICollection(Of Byte)) As Double
-
+        'IA Math
         Dim strIAMath As Double
         strIAMath = SidByteCol(2)
         strIAMath = strIAMath * 256 + SidByteCol(3) '65792
@@ -352,9 +281,53 @@ Public Class Form1
     End Function
 
     Private Sub UICount5(SidByteCol As ICollection(Of Byte))
-
+        SetBoxesSub1(SidByteCol)
+        SetBoxesSub2(SidByteCol)
+        SetBoxesSub3(SidByteCol)
+        SetBoxesSub4(SidByteCol)
+        SetBoxesSub5(SidByteCol)
 
         'Sub ID Count = 5 then All 28 Bytes will be used.
+    End Sub
+
+    Private Sub SetBoxesSub5(SidByteCol As ICollection(Of Byte))
+
+        ' Text boxes Sub 5
+        tb5ID1.Text = SidByteCol(24).ToString()
+        tb5ID2.Text = SidByteCol(25).ToString()
+        tb5ID3.Text = SidByteCol(26).ToString()
+        tb5ID4.Text = SidByteCol(27).ToString()
+    End Sub
+
+    Private Sub SetBoxesSub4(SidByteCol As ICollection(Of Byte))
+
+        ' Text boxes Sub 4
+        tb4ID1.Text = SidByteCol(20).ToString()
+        tb4ID2.Text = SidByteCol(21).ToString()
+        tb4ID3.Text = SidByteCol(22).ToString()
+        tb4ID4.Text = SidByteCol(23).ToString()
+    End Sub
+
+    Private Sub SetBoxesSub3(SidByteCol As ICollection(Of Byte))
+
+        ' Text boxes Sub 3
+        tb3ID1.Text = SidByteCol(16).ToString()
+        tb3ID2.Text = SidByteCol(17).ToString()
+        tb3ID3.Text = SidByteCol(18).ToString()
+        tb3ID4.Text = SidByteCol(19).ToString()
+    End Sub
+
+    Private Sub SetBoxesSub2(SidByteCol As ICollection(Of Byte))
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = SidByteCol(12).ToString()
+        tb2ID2.Text = SidByteCol(13).ToString()
+        tb2ID3.Text = SidByteCol(14).ToString()
+        tb2ID4.Text = SidByteCol(15).ToString()
+    End Sub
+
+    Private Sub SetBoxesSub1(SidByteCol As ICollection(Of Byte))
+
         tbRevision.Text = SidByteCol(0).ToString()
         tbSubIDCount.Text = SidByteCol(1).ToString()
         'Text boxes SID_IDENTIFIER_AUTHORITY
@@ -369,27 +342,6 @@ Public Class Form1
         tb1ID2.Text = SidByteCol(9).ToString()
         tb1ID3.Text = SidByteCol(10).ToString()
         tb1ID4.Text = SidByteCol(11).ToString()
-
-        ' Text boxes Sub 2
-        tb2ID1.Text = SidByteCol(12).ToString()
-        tb2ID2.Text = SidByteCol(13).ToString()
-        tb2ID3.Text = SidByteCol(14).ToString()
-        tb2ID4.Text = SidByteCol(15).ToString()
-        ' Text boxes Sub 3
-        tb3ID1.Text = SidByteCol(16).ToString()
-        tb3ID2.Text = SidByteCol(17).ToString()
-        tb3ID3.Text = SidByteCol(18).ToString()
-        tb3ID4.Text = SidByteCol(19).ToString()
-        ' Text boxes Sub 4
-        tb4ID1.Text = SidByteCol(20).ToString()
-        tb4ID2.Text = SidByteCol(21).ToString()
-        tb4ID3.Text = SidByteCol(22).ToString()
-        tb4ID4.Text = SidByteCol(23).ToString()
-        ' Tex boxes Sub 5
-        tb5ID1.Text = SidByteCol(24).ToString()
-        tb5ID2.Text = SidByteCol(25).ToString()
-        tb5ID3.Text = SidByteCol(26).ToString()
-        tb5ID4.Text = SidByteCol(27).ToString()
     End Sub
 
     Private Sub lblAbout_Click(sender As System.Object,
