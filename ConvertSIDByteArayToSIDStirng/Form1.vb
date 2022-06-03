@@ -18,29 +18,28 @@ Public Class Form1
             ByVal e As System.EventArgs) Handles btnConvert.Click
 
         Try
-            Dim b1, b2 As Double
             Dim RawSid As String
             RawSid = tbInputString.Text.Replace(" ", "")
-            Dim SidStrCol As New Collection(Of Double)
+            Dim SidStrCol As New Collection(Of Byte)
             Dim TrmdRawSID As String = RawSid.TrimEnd(","c)
             Dim stary() As String = Split(TrmdRawSID, ",", -1)
 
             For Each strByte In stary
-                SidStrCol.Add(CDbl(strByte))
+                SidStrCol.Add(CByte(strByte))
             Next
 
-            b1 = CDbl(SidStrCol(0))         ' Revision Number           1 byte
-            b2 = CDbl(SidStrCol(1))         ' Sub ID Count              1 byte
+            Dim b1 = SidStrCol(0)         ' Revision Number           1 byte
+            Dim b2 = SidStrCol(1)         ' Sub ID Count              1 byte
             If b2 = 1 Then
-                sCount1(SidStrCol)
+                tbOutputString.Text = sCount1(SidStrCol, AddressOf UICount1)
             ElseIf b2 = 2 Then
-                sCount2(SidStrCol)
+                tbOutputString.Text = sCount2(SidStrCol, AddressOf UICount2)
             ElseIf b2 = 3 Then
-                sCount3(SidStrCol)
+                tbOutputString.Text = sCount3(SidStrCol, AddressOf UICount3)
             ElseIf b2 = 4 Then
-                sCount4(SidStrCol)
+                tbOutputString.Text = sCount4(SidStrCol, AddressOf UICount4)
             ElseIf b2 = 5 Then
-                sCount5(SidStrCol)
+                tbOutputString.Text = sCount5(SidStrCol, AddressOf UICount5)
             ElseIf b2 > 5 Then
                 MsgBox("This program only works for " &
                "SID's with 1-5 Sub Authority's" & vbNewLine &
@@ -48,7 +47,7 @@ Public Class Form1
                MsgBoxStyle.Information, "Sub ID Count To High")
             End If
         Catch ex As Exception
-            If tbInputString.Text = Nothing Then
+            If String.IsNullOrEmpty(tbInputString.Text) Then
                 MsgBox("Please insert the SID to Convert",
                    MsgBoxStyle.Information, "Error, Missing SID")
             Else
@@ -57,7 +56,7 @@ Public Class Form1
             End If
         End Try
     End Sub
-    Private Sub sCount1(SidStrCol As Collection(Of Double))
+    Private Function sCount1(SidStrCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
             Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 As Double
 
@@ -73,42 +72,14 @@ Public Class Form1
             b9 = SidStrCol(8)         ' Sub Authority 1           4 bytes
             b10 = SidStrCol(9)       ' 2
             b11 = SidStrCol(10)       ' 3
-            b12 = SidStrCol(11)       ' 4
-            ' Everything before here is the minimum that
-            ' will go in Will need to check the sub id count after this.      
+            b12 = SidStrCol(11)
 
-            tbRevision.Text = b1.ToString()
-            tbSubIDCount.Text = b2.ToString()
-            'Text boxes SID_IDENTIFIER_AUTHORITY
-            tbIA1.Text = b3.ToString()
-            tbIA2.Text = b4.ToString()
-            tbIA3.Text = b5.ToString()
-            tbIA4.Text = b6.ToString()
-            tbIA5.Text = b7.ToString()
-            tbIA6.Text = b8.ToString()
-            'Text boxes sub 1
-            tb1ID1.Text = b9.ToString()
-            tb1ID2.Text = b10.ToString()
-            tb1ID3.Text = b11.ToString()
-            tb1ID4.Text = b12.ToString()
+            updateUI?.Invoke(SidStrCol)
 
-            ' Text boxes Sub 2
-            tb2ID1.Text = "x"
-            tb2ID2.Text = "x"
-            tb2ID3.Text = "x"
-            tb2ID4.Text = "x" ' Text boxes Sub 3
-            tb3ID1.Text = "x"
-            tb3ID2.Text = "x"
-            tb3ID3.Text = "x"
-            tb3ID4.Text = "x" ' Text boxes Sub 4
-            tb4ID1.Text = "x"
-            tb4ID2.Text = "x"
-            tb4ID3.Text = "x"
-            tb4ID4.Text = "x" ' Tex boxes Sub 5
-            tb5ID1.Text = "x"
-            tb5ID2.Text = "x"
-            tb5ID3.Text = "x"
-            tb5ID4.Text = "x" 'IA Math
+            ' 4
+            ' Everything before here is the minimum that will go in
+            ' Will need to check the sub id count after this.      
+
             Dim strIAMath As Double
             strIAMath = b3
             strIAMath = strIAMath * 256 + b4
@@ -127,12 +98,49 @@ Public Class Form1
 
             OutputString = ("S-" & b1 & "-" & strIAMath & "-" & Sub1Math)
 
-            tbOutputString.Text = OutputString
+            Return OutputString
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
+        Return ""
+    End Function
+
+    Private Sub UICount1(SidStrCol As ICollection(Of Byte))
+        tbRevision.Text = SidStrCol(0).ToString()
+        tbSubIDCount.Text = SidStrCol(1).ToString()
+        'Text boxes SID_IDENTIFIER_AUTHORITY
+        tbIA1.Text = SidStrCol(2).ToString()
+        tbIA2.Text = SidStrCol(3).ToString()
+        tbIA3.Text = SidStrCol(4).ToString()
+        tbIA4.Text = SidStrCol(5).ToString()
+        tbIA5.Text = SidStrCol(6).ToString()
+        tbIA6.Text = SidStrCol(7).ToString()
+        'Text boxes sub 1
+        tb1ID1.Text = SidStrCol(8).ToString()
+        tb1ID2.Text = SidStrCol(9).ToString()
+        tb1ID3.Text = SidStrCol(10).ToString()
+        tb1ID4.Text = SidStrCol(11).ToString()
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = "x"
+        tb2ID2.Text = "x"
+        tb2ID3.Text = "x"
+        tb2ID4.Text = "x" ' Text boxes Sub 3
+        tb3ID1.Text = "x"
+        tb3ID2.Text = "x"
+        tb3ID3.Text = "x"
+        tb3ID4.Text = "x" ' Text boxes Sub 4
+        tb4ID1.Text = "x"
+        tb4ID2.Text = "x"
+        tb4ID3.Text = "x"
+        tb4ID4.Text = "x" ' Tex boxes Sub 5
+        tb5ID1.Text = "x"
+        tb5ID2.Text = "x"
+        tb5ID3.Text = "x"
+        tb5ID4.Text = "x" 'IA Math
     End Sub
-    Private Sub sCount2(SidStrCol As Collection(Of Double))
+
+    Private Function sCount2(SidStrCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
             Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10,
                 b11, b12, b13, b14, b15, b16 As Double
@@ -155,41 +163,12 @@ Public Class Form1
             b13 = SidStrCol(12)       ' Sub Authority 2           4 bytes
             b14 = SidStrCol(13)       ' 2
             b15 = SidStrCol(14)       ' 3
-            b16 = SidStrCol(15)       ' 4 'Sub ID count = 2 All above
+            b16 = SidStrCol(15)
 
-            tbRevision.Text = b1.ToString()
-            tbSubIDCount.Text = b2.ToString()
-            'Text boxes SID_IDENTIFIER_AUTHORITY
-            tbIA1.Text = b3.ToString()
-            tbIA2.Text = b4.ToString()
-            tbIA3.Text = b5.ToString()
-            tbIA4.Text = b6.ToString()
-            tbIA5.Text = b7.ToString()
-            tbIA6.Text = b8.ToString()
-            'Text boxes sub 1
-            tb1ID1.Text = b9.ToString()
-            tb1ID2.Text = b10.ToString()
-            tb1ID3.Text = b11.ToString()
-            tb1ID4.Text = b12.ToString()
+            updateUI?.Invoke(SidStrCol)
 
-            ' Text boxes Sub 2
-            tb2ID1.Text = b13.ToString()
-            tb2ID2.Text = b14.ToString()
-            tb2ID3.Text = b15.ToString()
-            tb2ID4.Text = b16.ToString()
-            ' Text boxes Sub 3
-            tb3ID1.Text = "x"
-            tb3ID2.Text = "x"
-            tb3ID3.Text = "x"
-            tb3ID4.Text = "x" ' Text boxes Sub 4
-            tb4ID1.Text = "x"
-            tb4ID2.Text = "x"
-            tb4ID3.Text = "x"
-            tb4ID4.Text = "x" ' Tex boxes Sub 5
-            tb5ID1.Text = "x"
-            tb5ID2.Text = "x"
-            tb5ID3.Text = "x"
-            tb5ID4.Text = "x" 'IA Math
+            ' 4 'Sub ID count = 2 All above
+
             Dim strIAMath As Double
             strIAMath = b3
             strIAMath = strIAMath * 256 + b4
@@ -214,12 +193,53 @@ Public Class Form1
 
             OutputString = $"S-{b1}-{strIAMath}-{Sub1Math}-{Sub2Math}"
 
-            tbOutputString.Text = OutputString
+            Return OutputString
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
+
         End Try
+
+        Return ""
+    End Function
+
+    Private Sub UICount2(SidStrCol As ICollection(Of Byte))
+
+        tbRevision.Text = SidStrCol(0).ToString()
+        tbSubIDCount.Text = SidStrCol(1).ToString()
+        'Text boxes SID_IDENTIFIER_AUTHORITY
+        tbIA1.Text = SidStrCol(2).ToString()
+        tbIA2.Text = SidStrCol(3).ToString()
+        tbIA3.Text = SidStrCol(4).ToString()
+        tbIA4.Text = SidStrCol(5).ToString()
+        tbIA5.Text = SidStrCol(6).ToString()
+        tbIA6.Text = SidStrCol(7).ToString()
+        'Text boxes sub 1
+        tb1ID1.Text = SidStrCol(8).ToString()
+        tb1ID2.Text = SidStrCol(9).ToString()
+        tb1ID3.Text = SidStrCol(10).ToString()
+        tb1ID4.Text = SidStrCol(11).ToString()
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = SidStrCol(12).ToString()
+        tb2ID2.Text = SidStrCol(13).ToString()
+        tb2ID3.Text = SidStrCol(14).ToString()
+        tb2ID4.Text = SidStrCol(15).ToString()
+        ' Text boxes Sub 3
+        tb3ID1.Text = "x"
+        tb3ID2.Text = "x"
+        tb3ID3.Text = "x"
+        tb3ID4.Text = "x" ' Text boxes Sub 4
+        tb4ID1.Text = "x"
+        tb4ID2.Text = "x"
+        tb4ID3.Text = "x"
+        tb4ID4.Text = "x" ' Tex boxes Sub 5
+        tb5ID1.Text = "x"
+        tb5ID2.Text = "x"
+        tb5ID3.Text = "x"
+        tb5ID4.Text = "x" 'IA Math
     End Sub
-    Private Sub sCount3(SidStrCol As Collection(Of Double))
+
+    Private Function sCount3(SidStrCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
             Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12,
             b13, b14, b15, b16, b17, b18, b19, b20 As Double
@@ -245,42 +265,12 @@ Public Class Form1
             b17 = SidStrCol(16)       ' Sub Authority 3           4 bytes
             b18 = SidStrCol(17)       ' 2
             b19 = SidStrCol(18)       ' 3
-            b20 = SidStrCol(19)       ' 4 ' Sub ID Count = 3 All Above
+            b20 = SidStrCol(19)
 
-            tbRevision.Text = b1.ToString()
-            tbSubIDCount.Text = b2.ToString()
-            'Text boxes SID_IDENTIFIER_AUTHORITY
-            tbIA1.Text = b3.ToString()
-            tbIA2.Text = b4.ToString()
-            tbIA3.Text = b5.ToString()
-            tbIA4.Text = b6.ToString()
-            tbIA5.Text = b7.ToString()
-            tbIA6.Text = b8.ToString()
-            'Text boxes sub 1
-            tb1ID1.Text = b9.ToString()
-            tb1ID2.Text = b10.ToString()
-            tb1ID3.Text = b11.ToString()
-            tb1ID4.Text = b12.ToString()
+            updateUI?.Invoke(SidStrCol)
 
-            ' Text boxes Sub 2
-            tb2ID1.Text = b13.ToString()
-            tb2ID2.Text = b14.ToString()
-            tb2ID3.Text = b15.ToString()
-            tb2ID4.Text = b16.ToString()
-            ' Text boxes Sub 3
-            tb3ID1.Text = b17.ToString()
-            tb3ID2.Text = b18.ToString()
-            tb3ID3.Text = b19.ToString()
-            tb3ID4.Text = b20.ToString()
-            ' Text boxes Sub 4
-            tb4ID1.Text = "x"
-            tb4ID2.Text = "x"
-            tb4ID3.Text = "x"
-            tb4ID4.Text = "x" ' Tex boxes Sub 5
-            tb5ID1.Text = "x"
-            tb5ID2.Text = "x"
-            tb5ID3.Text = "x"
-            tb5ID4.Text = "x" 'IA Math
+            ' 4 ' Sub ID Count = 3 All Above
+
             Dim strIAMath As Double
             strIAMath = b3
             strIAMath = strIAMath * 256 + b4
@@ -311,12 +301,53 @@ Public Class Form1
 
             OutputString = $"S-{b1}-{strIAMath}-{Sub1Math}-{Sub2Math}-{Sub3Math}"
 
-            tbOutputString.Text = OutputString
+            Return OutputString
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
+        Return ""
+    End Function
+
+    Private Sub UICount3(SidStrCol As ICollection(Of Byte))
+
+
+        tbRevision.Text = SidStrCol(0).ToString()
+        tbSubIDCount.Text = SidStrCol(1).ToString()
+        'Text boxes SID_IDENTIFIER_AUTHORITY
+        tbIA1.Text = SidStrCol(2).ToString()
+        tbIA2.Text = SidStrCol(3).ToString()
+        tbIA3.Text = SidStrCol(4).ToString()
+        tbIA4.Text = SidStrCol(5).ToString()
+        tbIA5.Text = SidStrCol(6).ToString()
+        tbIA6.Text = SidStrCol(7).ToString()
+        'Text boxes sub 1
+        tb1ID1.Text = SidStrCol(8).ToString()
+        tb1ID2.Text = SidStrCol(9).ToString()
+        tb1ID3.Text = SidStrCol(10).ToString()
+        tb1ID4.Text = SidStrCol(11).ToString()
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = SidStrCol(12).ToString()
+        tb2ID2.Text = SidStrCol(13).ToString()
+        tb2ID3.Text = SidStrCol(14).ToString()
+        tb2ID4.Text = SidStrCol(15).ToString()
+        ' Text boxes Sub 3
+        tb3ID1.Text = SidStrCol(16).ToString()
+        tb3ID2.Text = SidStrCol(17).ToString()
+        tb3ID3.Text = SidStrCol(18).ToString()
+        tb3ID4.Text = SidStrCol(19).ToString()
+        ' Text boxes Sub 4
+        tb4ID1.Text = "x"
+        tb4ID2.Text = "x"
+        tb4ID3.Text = "x"
+        tb4ID4.Text = "x" ' Tex boxes Sub 5
+        tb5ID1.Text = "x"
+        tb5ID2.Text = "x"
+        tb5ID3.Text = "x"
+        tb5ID4.Text = "x" 'IA Math
     End Sub
-    Private Sub sCount4(SidStrCol As Collection(Of Double))
+
+    Private Function sCount4(SidStrCol As Collection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
             Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12,
               b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24 As Double
@@ -347,42 +378,11 @@ Public Class Form1
             b21 = SidStrCol(20)       ' Sub Authority 4           4 bytes
             b22 = SidStrCol(21)       ' 2
             b23 = SidStrCol(22)       ' 3
-            b24 = SidStrCol(23)       ' 4 ' Sub ID Count = 4 All Above          
-            tbRevision.Text = b1.ToString()
-            tbSubIDCount.Text = b2.ToString()
-            'Text boxes SID_IDENTIFIER_AUTHORITY
-            tbIA1.Text = b3.ToString()
-            tbIA2.Text = b4.ToString()
-            tbIA3.Text = b5.ToString()
-            tbIA4.Text = b6.ToString()
-            tbIA5.Text = b7.ToString()
-            tbIA6.Text = b8.ToString()
-            'Text boxes sub 1
-            tb1ID1.Text = b9.ToString()
-            tb1ID2.Text = b10.ToString()
-            tb1ID3.Text = b11.ToString()
-            tb1ID4.Text = b12.ToString()
+            b24 = SidStrCol(23)
 
-            ' Text boxes Sub 2
-            tb2ID1.Text = b13.ToString()
-            tb2ID2.Text = b14.ToString()
-            tb2ID3.Text = b15.ToString()
-            tb2ID4.Text = b16.ToString()
-            ' Text boxes Sub 3
-            tb3ID1.Text = b17.ToString()
-            tb3ID2.Text = b18.ToString()
-            tb3ID3.Text = b19.ToString()
-            tb3ID4.Text = b20.ToString()
-            ' Text boxes Sub 4
-            tb4ID1.Text = b21.ToString()
-            tb4ID2.Text = b22.ToString()
-            tb4ID3.Text = b23.ToString()
-            tb4ID4.Text = b24.ToString()
-            ' Tex boxes Sub 5
-            tb5ID1.Text = "x"
-            tb5ID2.Text = "x"
-            tb5ID3.Text = "x"
-            tb5ID4.Text = "x" 'IA Math
+            updateUI?.Invoke(SidStrCol)
+
+            ' 4 ' Sub ID Count = 4 All Above          
             Dim strIAMath As Double
             strIAMath = b3
             strIAMath = strIAMath * 256 + b4
@@ -419,12 +419,52 @@ Public Class Form1
 
             OutputString = $"S-{b1}-{strIAMath}-{Sub1Math}-{Sub2Math}-{Sub3Math}-{Sub4Math}"
 
-            tbOutputString.Text = OutputString
+            Return OutputString
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
+        Return ""
+    End Function
+
+    Private Sub UICount4(SidStrCol As ICollection(Of Byte))
+        tbRevision.Text = SidStrCol(0).ToString()
+        tbSubIDCount.Text = SidStrCol(1).ToString()
+        'Text boxes SID_IDENTIFIER_AUTHORITY
+        tbIA1.Text = SidStrCol(2).ToString()
+        tbIA2.Text = SidStrCol(3).ToString()
+        tbIA3.Text = SidStrCol(4).ToString()
+        tbIA4.Text = SidStrCol(5).ToString()
+        tbIA5.Text = SidStrCol(6).ToString()
+        tbIA6.Text = SidStrCol(7).ToString()
+        'Text boxes sub 1
+        tb1ID1.Text = SidStrCol(8).ToString()
+        tb1ID2.Text = SidStrCol(9).ToString()
+        tb1ID3.Text = SidStrCol(10).ToString()
+        tb1ID4.Text = SidStrCol(11).ToString()
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = SidStrCol(12).ToString()
+        tb2ID2.Text = SidStrCol(13).ToString()
+        tb2ID3.Text = SidStrCol(14).ToString()
+        tb2ID4.Text = SidStrCol(15).ToString()
+        ' Text boxes Sub 3
+        tb3ID1.Text = SidStrCol(16).ToString()
+        tb3ID2.Text = SidStrCol(17).ToString()
+        tb3ID3.Text = SidStrCol(18).ToString()
+        tb3ID4.Text = SidStrCol(19).ToString()
+        ' Text boxes Sub 4
+        tb4ID1.Text = SidStrCol(20).ToString()
+        tb4ID2.Text = SidStrCol(21).ToString()
+        tb4ID3.Text = SidStrCol(22).ToString()
+        tb4ID4.Text = SidStrCol(23).ToString()
+        ' Tex boxes Sub 5
+        tb5ID1.Text = "x"
+        tb5ID2.Text = "x"
+        tb5ID3.Text = "x"
+        tb5ID4.Text = "x" 'IA Math
     End Sub
-    Private Sub sCount5(SidStrCol As Collection(Of Double))
+
+    Private Function sCount5(SidStrCol As ICollection(Of Byte), updateUI As Action(Of ICollection(Of Byte))) As String
         Try
             Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13,
               b14, b15, b16, b17, b18, b19, b20, b21, b22, b23,
@@ -460,43 +500,11 @@ Public Class Form1
             b25 = SidStrCol(24)       ' Sub Authority 5 (RID)     4 bytes
             b26 = SidStrCol(25)       ' 2
             b27 = SidStrCol(26)       ' 3
-            b28 = SidStrCol(27)       ' 4   (Last byte in the array / Collection)
-            'Sub ID Count = 5 then All 28 Bytes will be used.
-            tbRevision.Text = b1.ToString()
-            tbSubIDCount.Text = b2.ToString()
-            'Text boxes SID_IDENTIFIER_AUTHORITY
-            tbIA1.Text = b3.ToString()
-            tbIA2.Text = b4.ToString()
-            tbIA3.Text = b5.ToString()
-            tbIA4.Text = b6.ToString()
-            tbIA5.Text = b7.ToString()
-            tbIA6.Text = b8.ToString()
-            'Text boxes sub 1
-            tb1ID1.Text = b9.ToString()
-            tb1ID2.Text = b10.ToString()
-            tb1ID3.Text = b11.ToString()
-            tb1ID4.Text = b12.ToString()
+            b28 = SidStrCol(27)
 
-            ' Text boxes Sub 2
-            tb2ID1.Text = b13.ToString()
-            tb2ID2.Text = b14.ToString()
-            tb2ID3.Text = b15.ToString()
-            tb2ID4.Text = b16.ToString()
-            ' Text boxes Sub 3
-            tb3ID1.Text = b17.ToString()
-            tb3ID2.Text = b18.ToString()
-            tb3ID3.Text = b19.ToString()
-            tb3ID4.Text = b20.ToString()
-            ' Text boxes Sub 4
-            tb4ID1.Text = b21.ToString()
-            tb4ID2.Text = b22.ToString()
-            tb4ID3.Text = b23.ToString()
-            tb4ID4.Text = b24.ToString()
-            ' Tex boxes Sub 5
-            tb5ID1.Text = b25.ToString()
-            tb5ID2.Text = b26.ToString()
-            tb5ID3.Text = b27.ToString()
-            tb5ID4.Text = b28.ToString()
+            updateUI?.Invoke(SidStrCol)
+
+            ' 4   (Last byte in the array / Collection)
             'IA Math
             Dim strIAMath As Double
             strIAMath = b3
@@ -540,11 +548,54 @@ Public Class Form1
 
             OutputString = $"S-{b1}-{strIAMath}-{Sub1Math}-{Sub2Math}-{Sub3Math}-{Sub4Math}-{sub5Math}"
 
-            tbOutputString.Text = OutputString
+            Return OutputString
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
+        Return ""
+    End Function
+
+    Private Sub UICount5(SidStrCol As ICollection(Of Byte))
+
+
+        'Sub ID Count = 5 then All 28 Bytes will be used.
+        tbRevision.Text = SidStrCol(0).ToString()
+        tbSubIDCount.Text = SidStrCol(1).ToString()
+        'Text boxes SID_IDENTIFIER_AUTHORITY
+        tbIA1.Text = SidStrCol(2).ToString()
+        tbIA2.Text = SidStrCol(3).ToString()
+        tbIA3.Text = SidStrCol(4).ToString()
+        tbIA4.Text = SidStrCol(5).ToString()
+        tbIA5.Text = SidStrCol(6).ToString()
+        tbIA6.Text = SidStrCol(7).ToString()
+        'Text boxes sub 1
+        tb1ID1.Text = SidStrCol(8).ToString()
+        tb1ID2.Text = SidStrCol(9).ToString()
+        tb1ID3.Text = SidStrCol(10).ToString()
+        tb1ID4.Text = SidStrCol(11).ToString()
+
+        ' Text boxes Sub 2
+        tb2ID1.Text = SidStrCol(12).ToString()
+        tb2ID2.Text = SidStrCol(13).ToString()
+        tb2ID3.Text = SidStrCol(14).ToString()
+        tb2ID4.Text = SidStrCol(15).ToString()
+        ' Text boxes Sub 3
+        tb3ID1.Text = SidStrCol(16).ToString()
+        tb3ID2.Text = SidStrCol(17).ToString()
+        tb3ID3.Text = SidStrCol(18).ToString()
+        tb3ID4.Text = SidStrCol(19).ToString()
+        ' Text boxes Sub 4
+        tb4ID1.Text = SidStrCol(20).ToString()
+        tb4ID2.Text = SidStrCol(21).ToString()
+        tb4ID3.Text = SidStrCol(22).ToString()
+        tb4ID4.Text = SidStrCol(23).ToString()
+        ' Tex boxes Sub 5
+        tb5ID1.Text = SidStrCol(24).ToString()
+        tb5ID2.Text = SidStrCol(25).ToString()
+        tb5ID3.Text = SidStrCol(26).ToString()
+        tb5ID4.Text = SidStrCol(27).ToString()
     End Sub
+
     Private Sub lblAbout_Click(sender As System.Object,
                  e As System.EventArgs) Handles lblAbout.Click
         AboutBox1.Show()
@@ -592,12 +643,12 @@ Public Class Form1
             Dim b1, b2 As Double
             Dim RawSid As String
             RawSid = tbInputString.Text.Replace(" ", "")
-            Dim SidStrCol As New Collection(Of Double)
+            Dim SidStrCol As New Collection(Of Byte)
             Dim TrmdRawSID As String = RawSid.TrimEnd(","c)
             Dim stary() As String = Split(TrmdRawSID, ",", -1)
 
             For Each strByte In stary
-                SidStrCol.Add(CDbl(strByte))
+                SidStrCol.Add(CByte(strByte))
             Next
             Dim colcnt As Integer
             colcnt = SidStrCol.Count
