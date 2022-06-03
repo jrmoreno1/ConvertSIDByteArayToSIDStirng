@@ -1,662 +1,688 @@
-﻿Imports ConvertSIDByteArayToSIDStirng.My
+﻿Option Strict Off
 
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CompilerServices
-
-Imports System
-Imports System.ComponentModel
-Imports System.Diagnostics
-Imports System.Drawing
-Imports System.Runtime.CompilerServices
-Imports System.Windows.Forms
+Imports System.Collections.ObjectModel
+Imports System.Text
 
 Public Class Form1
-    Private Sub btnConvert_Click(sender As Object, e As EventArgs)
-        ' The following expression was wrapped in a checked-statement
+
+    Private Sub btnConvert_Click(ByVal sender As System.Object,
+            ByVal e As System.EventArgs) Handles btnConvert.Click
+
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
+
             Next
-            Dim text2 As String = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            If Conversions.ToDouble(text3) = 1.0 Then
-                Me.sCount1()
-            ElseIf Conversions.ToDouble(text3) = 2.0 Then
-                Me.sCount2()
-            ElseIf Conversions.ToDouble(text3) = 3.0 Then
-                Me.sCount3()
-            ElseIf Conversions.ToDouble(text3) = 4.0 Then
-                Me.sCount4()
-            ElseIf Conversions.ToDouble(text3) = 5.0 Then
-                Me.sCount5()
-            ElseIf Conversions.ToDouble(text3) > 5.0 Then
-                Interaction.MsgBox("This program only works for SID's with 1-5 Sub Authority's" & vbCrLf & "Your Sub ID = " + text3.ToString(), MsgBoxStyle.Information, "Sub ID Count To High")
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte
+            If b2 = 1 Then
+                sCount1()
+            ElseIf b2 = 2 Then
+                sCount2()
+            ElseIf b2 = 3 Then
+                sCount3()
+            ElseIf b2 = 4 Then
+                sCount4()
+            ElseIf b2 = 5 Then
+                sCount5()
+            ElseIf b2 > 5 Then
+                MsgBox("This program only works for " &
+               "SID's with 1-5 Sub Authority's" & vbNewLine &
+               "Your Sub ID = " & b2.ToString,
+               MsgBoxStyle.Information, "Sub ID Count To High")
             End If
-        Catch expr_136 As Exception
-            ProjectData.SetProjectError(expr_136)
-            Dim ex As Exception = expr_136
-            If Operators.CompareString(Me.tbInputString.Text, Nothing, False) = 0 Then
-                Interaction.MsgBox("Please insert the SID to Convert", MsgBoxStyle.Information, "Error, Missing SID")
+        Catch ex As Exception
+            If tbInputString.Text = Nothing Then
+                MsgBox("Please insert the SID to Convert",
+                   MsgBoxStyle.Information, "Error, Missing SID")
             Else
-                Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
+                MsgBox(ex.Message, MsgBoxStyle.Information,
+                        "Some Kind Of Error Happened")
             End If
-            ProjectData.ClearProjectError()
         End Try
     End Sub
-
     Private Sub sCount1()
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            Dim text2 As String
-            Dim text5 As String
-            Dim text6 As String
-            Dim text7 As String
-            Dim text8 As String
-            Dim text9 As String
-            Dim text10 As String
-            Dim text11 As String
-            Dim text12 As String
-            Dim text13 As String
-            Dim text14 As String
-            ' The following expression was wrapped in a checked-statement
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
+
             Next
-            text2 = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            Dim text4 As String = Conversions.ToString(collection(3))
-            text5 = Conversions.ToString(collection(4))
-            text6 = Conversions.ToString(collection(5))
-            text7 = Conversions.ToString(collection(6))
-            text8 = Conversions.ToString(collection(7))
-            text9 = Conversions.ToString(collection(8))
-            text10 = Conversions.ToString(collection(9))
-            text11 = Conversions.ToString(collection(10))
-            text12 = Conversions.ToString(collection(11))
-            text13 = Conversions.ToString(collection(12))
-            Me.tbRevision.Text = text2
-            Me.tbSubIDCount.Text = text3
-            Me.tbIA1.Text = text4
-            Me.tbIA2.Text = text5
-            Me.tbIA3.Text = text6
-            Me.tbIA4.Text = text7
-            Me.tbIA5.Text = text8
-            Me.tbIA6.Text = text9
-            Me.tb1ID1.Text = text10
-            Me.tb1ID2.Text = text11
-            Me.tb1ID3.Text = text12
-            Me.tb1ID4.Text = text13
-            Me.tb2ID1.Text = "x"
-            Me.tb2ID2.Text = "x"
-            Me.tb2ID3.Text = "x"
-            Me.tb2ID4.Text = "x"
-            Me.tb3ID1.Text = "x"
-            Me.tb3ID2.Text = "x"
-            Me.tb3ID3.Text = "x"
-            Me.tb3ID4.Text = "x"
-            Me.tb4ID1.Text = "x"
-            Me.tb4ID2.Text = "x"
-            Me.tb4ID3.Text = "x"
-            Me.tb4ID4.Text = "x"
-            Me.tb5ID1.Text = "x"
-            Me.tb5ID2.Text = "x"
-            Me.tb5ID3.Text = "x"
-            Me.tb5ID4.Text = "x"
-            text14 = text4
-            text14 = Conversions.ToString(Conversions.ToDouble(text14) * 256.0 + Conversions.ToDouble(text5))
-            text14 = Conversions.ToString(Conversions.ToDouble(text14) * 256.0 + Conversions.ToDouble(text6))
-            text14 = Conversions.ToString(Conversions.ToDouble(text14) * 256.0 + Conversions.ToDouble(text7))
-            text14 = Conversions.ToString(Conversions.ToDouble(text14) * 256.0 + Conversions.ToDouble(text8))
-            text14 = Conversions.ToString(Conversions.ToDouble(text14) * 256.0 + Conversions.ToDouble(text9))
-            Dim text15 As String = text13
-            text15 = Conversions.ToString(Conversions.ToDouble(text15) * 256.0 + Conversions.ToDouble(text12))
-            text15 = Conversions.ToString(Conversions.ToDouble(text15) * 256.0 + Conversions.ToDouble(text11))
-            text15 = Conversions.ToString(Conversions.ToDouble(text15) * 256.0 + Conversions.ToDouble(text10))
-            Dim text16 As String = String.Concat(New String() {"S-", text2, "-", text14, "-", text15})
-            Me.tbOutputString.Text = text16
-        Catch expr_404 As Exception
-            ProjectData.SetProjectError(expr_404)
-            Dim ex As Exception = expr_404
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
-            ProjectData.ClearProjectError()
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte ' Satrt Auth.
+            b3 = SidStrCol(3)         ' SID_IDENTIFIER_AUTHORITY  6 bytes
+            b4 = SidStrCol(4)         ' 2
+            b5 = SidStrCol(5)         ' 3
+            b6 = SidStrCol(6)         ' 4
+            b7 = SidStrCol(7)         ' 5
+            b8 = SidStrCol(8)         ' 6 'Start Sub 1
+            b9 = SidStrCol(9)         ' Sub Authority 1           4 bytes
+            b10 = SidStrCol(10)       ' 2
+            b11 = SidStrCol(11)       ' 3
+            b12 = SidStrCol(12)       ' 4
+            ' Everything before here is the minimum that
+            ' will go in Will need to check the sub id count after this.      
+
+            tbRevision.Text = b1
+            tbSubIDCount.Text = b2
+            'Text boxes SID_IDENTIFIER_AUTHORITY
+            tbIA1.Text = b3
+            tbIA2.Text = b4
+            tbIA3.Text = b5
+            tbIA4.Text = b6
+            tbIA5.Text = b7
+            tbIA6.Text = b8
+            'Text boxes sub 1
+            tb1ID1.Text = b9
+            tb1ID2.Text = b10
+            tb1ID3.Text = b11
+            tb1ID4.Text = b12
+
+            ' Text boxes Sub 2
+            tb2ID1.Text = "x"
+            tb2ID2.Text = "x"
+            tb2ID3.Text = "x"
+            tb2ID4.Text = "x" ' Text boxes Sub 3
+            tb3ID1.Text = "x"
+            tb3ID2.Text = "x"
+            tb3ID3.Text = "x"
+            tb3ID4.Text = "x" ' Text boxes Sub 4
+            tb4ID1.Text = "x"
+            tb4ID2.Text = "x"
+            tb4ID3.Text = "x"
+            tb4ID4.Text = "x" ' Tex boxes Sub 5
+            tb5ID1.Text = "x"
+            tb5ID2.Text = "x"
+            tb5ID3.Text = "x"
+            tb5ID4.Text = "x" 'IA Math
+            Dim strIAMath As String
+            strIAMath = b3
+            strIAMath = strIAMath * 256 + b4
+            strIAMath = strIAMath * 256 + b5
+            strIAMath = strIAMath * 256 + b6
+            strIAMath = strIAMath * 256 + b7
+            strIAMath = strIAMath * 256 + b8
+
+            Dim Sub1Math As String
+            Sub1Math = b12                      ' Starts From The Right
+            Sub1Math = (Sub1Math * 256) + b11
+            Sub1Math = (Sub1Math * 256) + b10
+            Sub1Math = (Sub1Math * 256) + b9
+
+            Dim OutputString As String
+
+            OutputString = ("S-" & b1 & "-" & strIAMath & "-" & Sub1Math)
+
+            tbOutputString.Text = OutputString
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
     End Sub
-
     Private Sub sCount2()
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            Dim text2 As String
-            Dim text5 As String
-            Dim text6 As String
-            Dim text7 As String
-            Dim text8 As String
-            Dim text9 As String
-            Dim text10 As String
-            Dim text11 As String
-            Dim text12 As String
-            Dim text13 As String
-            Dim text14 As String
-            Dim text15 As String
-            Dim text16 As String
-            Dim text17 As String
-            Dim text18 As String
-            ' The following expression was wrapped in a checked-statement
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10,
+                b11, b12, b13, b14, b15, b16 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
+
             Next
-            text2 = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            Dim text4 As String = Conversions.ToString(collection(3))
-            text5 = Conversions.ToString(collection(4))
-            text6 = Conversions.ToString(collection(5))
-            text7 = Conversions.ToString(collection(6))
-            text8 = Conversions.ToString(collection(7))
-            text9 = Conversions.ToString(collection(8))
-            text10 = Conversions.ToString(collection(9))
-            text11 = Conversions.ToString(collection(10))
-            text12 = Conversions.ToString(collection(11))
-            text13 = Conversions.ToString(collection(12))
-            text14 = Conversions.ToString(collection(13))
-            text15 = Conversions.ToString(collection(14))
-            text16 = Conversions.ToString(collection(15))
-            text17 = Conversions.ToString(collection(16))
-            Me.tbRevision.Text = text2
-            Me.tbSubIDCount.Text = text3
-            Me.tbIA1.Text = text4
-            Me.tbIA2.Text = text5
-            Me.tbIA3.Text = text6
-            Me.tbIA4.Text = text7
-            Me.tbIA5.Text = text8
-            Me.tbIA6.Text = text9
-            Me.tb1ID1.Text = text10
-            Me.tb1ID2.Text = text11
-            Me.tb1ID3.Text = text12
-            Me.tb1ID4.Text = text13
-            Me.tb2ID1.Text = text14
-            Me.tb2ID2.Text = text15
-            Me.tb2ID3.Text = text16
-            Me.tb2ID4.Text = text17
-            Me.tb3ID1.Text = "x"
-            Me.tb3ID2.Text = "x"
-            Me.tb3ID3.Text = "x"
-            Me.tb3ID4.Text = "x"
-            Me.tb4ID1.Text = "x"
-            Me.tb4ID2.Text = "x"
-            Me.tb4ID3.Text = "x"
-            Me.tb4ID4.Text = "x"
-            Me.tb5ID1.Text = "x"
-            Me.tb5ID2.Text = "x"
-            Me.tb5ID3.Text = "x"
-            Me.tb5ID4.Text = "x"
-            text18 = text4
-            text18 = Conversions.ToString(Conversions.ToDouble(text18) * 256.0 + Conversions.ToDouble(text5))
-            text18 = Conversions.ToString(Conversions.ToDouble(text18) * 256.0 + Conversions.ToDouble(text6))
-            text18 = Conversions.ToString(Conversions.ToDouble(text18) * 256.0 + Conversions.ToDouble(text7))
-            text18 = Conversions.ToString(Conversions.ToDouble(text18) * 256.0 + Conversions.ToDouble(text8))
-            text18 = Conversions.ToString(Conversions.ToDouble(text18) * 256.0 + Conversions.ToDouble(text9))
-            Dim text19 As String = text13
-            text19 = Conversions.ToString(Conversions.ToDouble(text19) * 256.0 + Conversions.ToDouble(text12))
-            text19 = Conversions.ToString(Conversions.ToDouble(text19) * 256.0 + Conversions.ToDouble(text11))
-            text19 = Conversions.ToString(Conversions.ToDouble(text19) * 256.0 + Conversions.ToDouble(text10))
-            Dim text20 As String = text17
-            text20 = Conversions.ToString(Conversions.ToDouble(text20) * 256.0 + Conversions.ToDouble(text16))
-            text20 = Conversions.ToString(Conversions.ToDouble(text20) * 256.0 + Conversions.ToDouble(text15))
-            text20 = Conversions.ToString(Conversions.ToDouble(text20) * 256.0 + Conversions.ToDouble(text14))
-            Dim text21 As String = String.Concat(New String() {"S-", text2, "-", text18, "-", text19, "-", text20})
-            Me.tbOutputString.Text = text21
-        Catch expr_4AB As Exception
-            ProjectData.SetProjectError(expr_4AB)
-            Dim ex As Exception = expr_4AB
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
-            ProjectData.ClearProjectError()
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte ' Satrt Auth.
+            b3 = SidStrCol(3)         ' SID_IDENTIFIER_AUTHORITY  6 bytes
+            b4 = SidStrCol(4)         ' 2
+            b5 = SidStrCol(5)         ' 3
+            b6 = SidStrCol(6)         ' 4
+            b7 = SidStrCol(7)         ' 5
+            b8 = SidStrCol(8)         ' 6 'Start Sub 1
+            b9 = SidStrCol(9)         ' Sub Authority 1           4 bytes
+            b10 = SidStrCol(10)       ' 2
+            b11 = SidStrCol(11)       ' 3
+            b12 = SidStrCol(12)       ' 4
+            ' Everything before here is the minimum that will go in
+            ' Will need to check the sub id count after this.
+            b13 = SidStrCol(13)       ' Sub Authority 2           4 bytes
+            b14 = SidStrCol(14)       ' 2
+            b15 = SidStrCol(15)       ' 3
+            b16 = SidStrCol(16)       ' 4 'Sub ID count = 2 All above
+
+            tbRevision.Text = b1
+            tbSubIDCount.Text = b2
+            'Text boxes SID_IDENTIFIER_AUTHORITY
+            tbIA1.Text = b3
+            tbIA2.Text = b4
+            tbIA3.Text = b5
+            tbIA4.Text = b6
+            tbIA5.Text = b7
+            tbIA6.Text = b8
+            'Text boxes sub 1
+            tb1ID1.Text = b9
+            tb1ID2.Text = b10
+            tb1ID3.Text = b11
+            tb1ID4.Text = b12
+
+            ' Text boxes Sub 2
+            tb2ID1.Text = b13
+            tb2ID2.Text = b14
+            tb2ID3.Text = b15
+            tb2ID4.Text = b16
+            ' Text boxes Sub 3
+            tb3ID1.Text = "x"
+            tb3ID2.Text = "x"
+            tb3ID3.Text = "x"
+            tb3ID4.Text = "x" ' Text boxes Sub 4
+            tb4ID1.Text = "x"
+            tb4ID2.Text = "x"
+            tb4ID3.Text = "x"
+            tb4ID4.Text = "x" ' Tex boxes Sub 5
+            tb5ID1.Text = "x"
+            tb5ID2.Text = "x"
+            tb5ID3.Text = "x"
+            tb5ID4.Text = "x" 'IA Math
+            Dim strIAMath As String
+            strIAMath = b3
+            strIAMath = strIAMath * 256 + b4
+            strIAMath = strIAMath * 256 + b5
+            strIAMath = strIAMath * 256 + b6
+            strIAMath = strIAMath * 256 + b7
+            strIAMath = strIAMath * 256 + b8
+
+            Dim Sub1Math As String
+            Sub1Math = b12                      ' Starts From The Right
+            Sub1Math = (Sub1Math * 256) + b11
+            Sub1Math = (Sub1Math * 256) + b10
+            Sub1Math = (Sub1Math * 256) + b9
+
+            Dim Sub2Math As String
+            Sub2Math = b16                     ' Starts From The Right
+            Sub2Math = (Sub2Math * 256) + b15
+            Sub2Math = (Sub2Math * 256) + b14
+            Sub2Math = (Sub2Math * 256) + b13
+
+            Dim OutputString As String
+
+            OutputString = ("S-" & b1 & "-" & strIAMath & "-" & Sub1Math & "-" & Sub2Math)
+
+            tbOutputString.Text = OutputString
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
     End Sub
-
     Private Sub sCount3()
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            Dim text2 As String
-            Dim text5 As String
-            Dim text6 As String
-            Dim text7 As String
-            Dim text8 As String
-            Dim text9 As String
-            Dim text10 As String
-            Dim text11 As String
-            Dim text12 As String
-            Dim text13 As String
-            Dim text14 As String
-            Dim text15 As String
-            Dim text16 As String
-            Dim text17 As String
-            Dim text18 As String
-            Dim text19 As String
-            Dim text20 As String
-            Dim text21 As String
-            Dim text22 As String
-            ' The following expression was wrapped in a checked-statement
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12,
+            b13, b14, b15, b16, b17, b18, b19, b20 As Double
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection(Of String)
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
+
             Next
-            text2 = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            Dim text4 As String = Conversions.ToString(collection(3))
-            text5 = Conversions.ToString(collection(4))
-            text6 = Conversions.ToString(collection(5))
-            text7 = Conversions.ToString(collection(6))
-            text8 = Conversions.ToString(collection(7))
-            text9 = Conversions.ToString(collection(8))
-            text10 = Conversions.ToString(collection(9))
-            text11 = Conversions.ToString(collection(10))
-            text12 = Conversions.ToString(collection(11))
-            text13 = Conversions.ToString(collection(12))
-            text14 = Conversions.ToString(collection(13))
-            text15 = Conversions.ToString(collection(14))
-            text16 = Conversions.ToString(collection(15))
-            text17 = Conversions.ToString(collection(16))
-            text18 = Conversions.ToString(collection(17))
-            text19 = Conversions.ToString(collection(18))
-            text20 = Conversions.ToString(collection(19))
-            text21 = Conversions.ToString(collection(20))
-            Me.tbRevision.Text = text2
-            Me.tbSubIDCount.Text = text3
-            Me.tbIA1.Text = text4
-            Me.tbIA2.Text = text5
-            Me.tbIA3.Text = text6
-            Me.tbIA4.Text = text7
-            Me.tbIA5.Text = text8
-            Me.tbIA6.Text = text9
-            Me.tb1ID1.Text = text10
-            Me.tb1ID2.Text = text11
-            Me.tb1ID3.Text = text12
-            Me.tb1ID4.Text = text13
-            Me.tb2ID1.Text = text14
-            Me.tb2ID2.Text = text15
-            Me.tb2ID3.Text = text16
-            Me.tb2ID4.Text = text17
-            Me.tb3ID1.Text = text18
-            Me.tb3ID2.Text = text19
-            Me.tb3ID3.Text = text20
-            Me.tb3ID4.Text = text21
-            Me.tb4ID1.Text = "x"
-            Me.tb4ID2.Text = "x"
-            Me.tb4ID3.Text = "x"
-            Me.tb4ID4.Text = "x"
-            Me.tb5ID1.Text = "x"
-            Me.tb5ID2.Text = "x"
-            Me.tb5ID3.Text = "x"
-            Me.tb5ID4.Text = "x"
-            text22 = text4
-            text22 = Conversions.ToString(Conversions.ToDouble(text22) * 256.0 + Conversions.ToDouble(text5))
-            text22 = Conversions.ToString(Conversions.ToDouble(text22) * 256.0 + Conversions.ToDouble(text6))
-            text22 = Conversions.ToString(Conversions.ToDouble(text22) * 256.0 + Conversions.ToDouble(text7))
-            text22 = Conversions.ToString(Conversions.ToDouble(text22) * 256.0 + Conversions.ToDouble(text8))
-            text22 = Conversions.ToString(Conversions.ToDouble(text22) * 256.0 + Conversions.ToDouble(text9))
-            Dim text23 As String = text13
-            text23 = Conversions.ToString(Conversions.ToDouble(text23) * 256.0 + Conversions.ToDouble(text12))
-            text23 = Conversions.ToString(Conversions.ToDouble(text23) * 256.0 + Conversions.ToDouble(text11))
-            text23 = Conversions.ToString(Conversions.ToDouble(text23) * 256.0 + Conversions.ToDouble(text10))
-            Dim text24 As String = text17
-            text24 = Conversions.ToString(Conversions.ToDouble(text24) * 256.0 + Conversions.ToDouble(text16))
-            text24 = Conversions.ToString(Conversions.ToDouble(text24) * 256.0 + Conversions.ToDouble(text15))
-            text24 = Conversions.ToString(Conversions.ToDouble(text24) * 256.0 + Conversions.ToDouble(text14))
-            Dim text25 As String = text21
-            text25 = Conversions.ToString(Conversions.ToDouble(text25) * 256.0 + Conversions.ToDouble(text20))
-            text25 = Conversions.ToString(Conversions.ToDouble(text25) * 256.0 + Conversions.ToDouble(text19))
-            text25 = Conversions.ToString(Conversions.ToDouble(text25) * 256.0 + Conversions.ToDouble(text18))
-            Dim text26 As String = String.Concat(New String() {"S-", text2, "-", text22, "-", text23, "-", text24, "-", text25})
-            Me.tbOutputString.Text = text26
-        Catch expr_554 As Exception
-            ProjectData.SetProjectError(expr_554)
-            Dim ex As Exception = expr_554
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
-            ProjectData.ClearProjectError()
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte ' Satrt Auth.
+            b3 = SidStrCol(3)         ' SID_IDENTIFIER_AUTHORITY  6 bytes
+            b4 = SidStrCol(4)         ' 2
+            b5 = SidStrCol(5)         ' 3
+            b6 = SidStrCol(6)         ' 4
+            b7 = SidStrCol(7)         ' 5
+            b8 = SidStrCol(8)         ' 6 'Start Sub 1
+            b9 = SidStrCol(9)         ' Sub Authority 1           4 bytes
+            b10 = SidStrCol(10)       ' 2
+            b11 = SidStrCol(11)       ' 3
+            b12 = SidStrCol(12)       ' 4
+            ' Everything before here is the minimum
+            ' that will go in Will need to check the sub id count after this.
+            b13 = SidStrCol(13)       ' Sub Authority 2           4 bytes
+            b14 = SidStrCol(14)       ' 2
+            b15 = SidStrCol(15)       ' 3
+            b16 = SidStrCol(16)       ' 4 'Sub ID count = 2 All above
+            b17 = SidStrCol(17)       ' Sub Authority 3           4 bytes
+            b18 = SidStrCol(18)       ' 2
+            b19 = SidStrCol(19)       ' 3
+            b20 = SidStrCol(20)       ' 4 ' Sub ID Count = 3 All Above
+
+            tbRevision.Text = b1
+            tbSubIDCount.Text = b2
+            'Text boxes SID_IDENTIFIER_AUTHORITY
+            tbIA1.Text = b3
+            tbIA2.Text = b4
+            tbIA3.Text = b5
+            tbIA4.Text = b6
+            tbIA5.Text = b7
+            tbIA6.Text = b8
+            'Text boxes sub 1
+            tb1ID1.Text = b9
+            tb1ID2.Text = b10
+            tb1ID3.Text = b11
+            tb1ID4.Text = b12
+
+            ' Text boxes Sub 2
+            tb2ID1.Text = b13
+            tb2ID2.Text = b14
+            tb2ID3.Text = b15
+            tb2ID4.Text = b16
+            ' Text boxes Sub 3
+            tb3ID1.Text = b17
+            tb3ID2.Text = b18
+            tb3ID3.Text = b19
+            tb3ID4.Text = b20
+            ' Text boxes Sub 4
+            tb4ID1.Text = "x"
+            tb4ID2.Text = "x"
+            tb4ID3.Text = "x"
+            tb4ID4.Text = "x" ' Tex boxes Sub 5
+            tb5ID1.Text = "x"
+            tb5ID2.Text = "x"
+            tb5ID3.Text = "x"
+            tb5ID4.Text = "x" 'IA Math
+            Dim strIAMath As String
+            strIAMath = b3
+            strIAMath = strIAMath * 256 + b4
+            strIAMath = strIAMath * 256 + b5
+            strIAMath = strIAMath * 256 + b6
+            strIAMath = strIAMath * 256 + b7
+            strIAMath = strIAMath * 256 + b8
+
+            Dim Sub1Math As String
+            Sub1Math = b12                      ' Starts From The Right
+            Sub1Math = (Sub1Math * 256) + b11
+            Sub1Math = (Sub1Math * 256) + b10
+            Sub1Math = (Sub1Math * 256) + b9
+
+            Dim Sub2Math As String
+            Sub2Math = b16                     ' Starts From The Right
+            Sub2Math = (Sub2Math * 256) + b15
+            Sub2Math = (Sub2Math * 256) + b14
+            Sub2Math = (Sub2Math * 256) + b13
+
+            Dim Sub3Math As String
+            Sub3Math = b20                     ' Starts From The Right
+            Sub3Math = Sub3Math * 256 + b19
+            Sub3Math = Sub3Math * 256 + b18
+            Sub3Math = Sub3Math * 256 + b17
+
+            Dim OutputString As String
+
+            OutputString = ("S-" & b1 & "-" & strIAMath &
+              "-" & Sub1Math & "-" & Sub2Math & "-" & Sub3Math)
+
+            tbOutputString.Text = OutputString
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
     End Sub
-
     Private Sub sCount4()
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            Dim text2 As String
-            Dim text5 As String
-            Dim text6 As String
-            Dim text7 As String
-            Dim text8 As String
-            Dim text9 As String
-            Dim text10 As String
-            Dim text11 As String
-            Dim text12 As String
-            Dim text13 As String
-            Dim text14 As String
-            Dim text15 As String
-            Dim text16 As String
-            Dim text17 As String
-            Dim text18 As String
-            Dim text19 As String
-            Dim text20 As String
-            Dim text21 As String
-            Dim text22 As String
-            Dim text23 As String
-            Dim text24 As String
-            Dim text25 As String
-            Dim text26 As String
-            ' The following expression was wrapped in a checked-statement
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12,
+              b13, b14, b15, b16, b17, b18, b19, b20, b21, b22, b23, b24 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
+
             Next
-            text2 = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            Dim text4 As String = Conversions.ToString(collection(3))
-            text5 = Conversions.ToString(collection(4))
-            text6 = Conversions.ToString(collection(5))
-            text7 = Conversions.ToString(collection(6))
-            text8 = Conversions.ToString(collection(7))
-            text9 = Conversions.ToString(collection(8))
-            text10 = Conversions.ToString(collection(9))
-            text11 = Conversions.ToString(collection(10))
-            text12 = Conversions.ToString(collection(11))
-            text13 = Conversions.ToString(collection(12))
-            text14 = Conversions.ToString(collection(13))
-            text15 = Conversions.ToString(collection(14))
-            text16 = Conversions.ToString(collection(15))
-            text17 = Conversions.ToString(collection(16))
-            text18 = Conversions.ToString(collection(17))
-            text19 = Conversions.ToString(collection(18))
-            text20 = Conversions.ToString(collection(19))
-            text21 = Conversions.ToString(collection(20))
-            text22 = Conversions.ToString(collection(21))
-            text23 = Conversions.ToString(collection(22))
-            text24 = Conversions.ToString(collection(23))
-            text25 = Conversions.ToString(collection(24))
-            Me.tbRevision.Text = text2
-            Me.tbSubIDCount.Text = text3
-            Me.tbIA1.Text = text4
-            Me.tbIA2.Text = text5
-            Me.tbIA3.Text = text6
-            Me.tbIA4.Text = text7
-            Me.tbIA5.Text = text8
-            Me.tbIA6.Text = text9
-            Me.tb1ID1.Text = text10
-            Me.tb1ID2.Text = text11
-            Me.tb1ID3.Text = text12
-            Me.tb1ID4.Text = text13
-            Me.tb2ID1.Text = text14
-            Me.tb2ID2.Text = text15
-            Me.tb2ID3.Text = text16
-            Me.tb2ID4.Text = text17
-            Me.tb3ID1.Text = text18
-            Me.tb3ID2.Text = text19
-            Me.tb3ID3.Text = text20
-            Me.tb3ID4.Text = text21
-            Me.tb4ID1.Text = text22
-            Me.tb4ID2.Text = text23
-            Me.tb4ID3.Text = text24
-            Me.tb4ID4.Text = text25
-            Me.tb5ID1.Text = "x"
-            Me.tb5ID2.Text = "x"
-            Me.tb5ID3.Text = "x"
-            Me.tb5ID4.Text = "x"
-            text26 = text4
-            text26 = Conversions.ToString(Conversions.ToDouble(text26) * 256.0 + Conversions.ToDouble(text5))
-            text26 = Conversions.ToString(Conversions.ToDouble(text26) * 256.0 + Conversions.ToDouble(text6))
-            text26 = Conversions.ToString(Conversions.ToDouble(text26) * 256.0 + Conversions.ToDouble(text7))
-            text26 = Conversions.ToString(Conversions.ToDouble(text26) * 256.0 + Conversions.ToDouble(text8))
-            text26 = Conversions.ToString(Conversions.ToDouble(text26) * 256.0 + Conversions.ToDouble(text9))
-            Dim text27 As String = text13
-            text27 = Conversions.ToString(Conversions.ToDouble(text27) * 256.0 + Conversions.ToDouble(text12))
-            text27 = Conversions.ToString(Conversions.ToDouble(text27) * 256.0 + Conversions.ToDouble(text11))
-            text27 = Conversions.ToString(Conversions.ToDouble(text27) * 256.0 + Conversions.ToDouble(text10))
-            Dim text28 As String = text17
-            text28 = Conversions.ToString(Conversions.ToDouble(text28) * 256.0 + Conversions.ToDouble(text16))
-            text28 = Conversions.ToString(Conversions.ToDouble(text28) * 256.0 + Conversions.ToDouble(text15))
-            text28 = Conversions.ToString(Conversions.ToDouble(text28) * 256.0 + Conversions.ToDouble(text14))
-            Dim text29 As String = text21
-            text29 = Conversions.ToString(Conversions.ToDouble(text29) * 256.0 + Conversions.ToDouble(text20))
-            text29 = Conversions.ToString(Conversions.ToDouble(text29) * 256.0 + Conversions.ToDouble(text19))
-            text29 = Conversions.ToString(Conversions.ToDouble(text29) * 256.0 + Conversions.ToDouble(text18))
-            Dim text30 As String = text25
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text24))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text23))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text22))
-            Dim text31 As String = String.Concat(New String() {"S-", text2, "-", text26, "-", text27, "-", text28, "-", text29, "-", text30})
-            Me.tbOutputString.Text = text31
-        Catch expr_5FD As Exception
-            ProjectData.SetProjectError(expr_5FD)
-            Dim ex As Exception = expr_5FD
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
-            ProjectData.ClearProjectError()
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte ' Satrt Auth.
+            b3 = SidStrCol(3)         ' SID_IDENTIFIER_AUTHORITY  6 bytes
+            b4 = SidStrCol(4)         ' 2
+            b5 = SidStrCol(5)         ' 3
+            b6 = SidStrCol(6)         ' 4
+            b7 = SidStrCol(7)         ' 5
+            b8 = SidStrCol(8)         ' 6 'Start Sub 1
+            b9 = SidStrCol(9)         ' Sub Authority 1           4 bytes
+            b10 = SidStrCol(10)       ' 2
+            b11 = SidStrCol(11)       ' 3
+            b12 = SidStrCol(12)       ' 4
+            ' Everything before here is the minimum that will
+            ' go in Will need to check the sub id count after this.
+            b13 = SidStrCol(13)       ' Sub Authority 2           4 bytes
+            b14 = SidStrCol(14)       ' 2
+            b15 = SidStrCol(15)       ' 3
+            b16 = SidStrCol(16)       ' 4 'Sub ID count = 2 All above
+            b17 = SidStrCol(17)       ' Sub Authority 3           4 bytes
+            b18 = SidStrCol(18)       ' 2
+            b19 = SidStrCol(19)       ' 3
+            b20 = SidStrCol(20)       ' 4 ' Sub ID Count = 3 All Above
+            b21 = SidStrCol(21)       ' Sub Authority 4           4 bytes
+            b22 = SidStrCol(22)       ' 2
+            b23 = SidStrCol(23)       ' 3
+            b24 = SidStrCol(24)       ' 4 ' Sub ID Count = 4 All Above          
+
+            tbRevision.Text = b1
+            tbSubIDCount.Text = b2
+            'Text boxes SID_IDENTIFIER_AUTHORITY
+            tbIA1.Text = b3
+            tbIA2.Text = b4
+            tbIA3.Text = b5
+            tbIA4.Text = b6
+            tbIA5.Text = b7
+            tbIA6.Text = b8
+            'Text boxes sub 1
+            tb1ID1.Text = b9
+            tb1ID2.Text = b10
+            tb1ID3.Text = b11
+            tb1ID4.Text = b12
+
+            ' Text boxes Sub 2
+            tb2ID1.Text = b13
+            tb2ID2.Text = b14
+            tb2ID3.Text = b15
+            tb2ID4.Text = b16
+            ' Text boxes Sub 3
+            tb3ID1.Text = b17
+            tb3ID2.Text = b18
+            tb3ID3.Text = b19
+            tb3ID4.Text = b20
+            ' Text boxes Sub 4
+            tb4ID1.Text = b21
+            tb4ID2.Text = b22
+            tb4ID3.Text = b23
+            tb4ID4.Text = b24
+            ' Tex boxes Sub 5
+            tb5ID1.Text = "x"
+            tb5ID2.Text = "x"
+            tb5ID3.Text = "x"
+            tb5ID4.Text = "x" 'IA Math
+            Dim strIAMath As String
+            strIAMath = b3
+            strIAMath = strIAMath * 256 + b4
+            strIAMath = strIAMath * 256 + b5
+            strIAMath = strIAMath * 256 + b6
+            strIAMath = strIAMath * 256 + b7
+            strIAMath = strIAMath * 256 + b8
+
+            Dim Sub1Math As String
+            Sub1Math = b12                      ' Starts From The Right
+            Sub1Math = (Sub1Math * 256) + b11
+            Sub1Math = (Sub1Math * 256) + b10
+            Sub1Math = (Sub1Math * 256) + b9
+
+            Dim Sub2Math As String
+            Sub2Math = b16                     ' Starts From The Right
+            Sub2Math = (Sub2Math * 256) + b15
+            Sub2Math = (Sub2Math * 256) + b14
+            Sub2Math = (Sub2Math * 256) + b13
+
+            Dim Sub3Math As String
+            Sub3Math = b20                     ' Starts From The Right
+            Sub3Math = Sub3Math * 256 + b19
+            Sub3Math = Sub3Math * 256 + b18
+            Sub3Math = Sub3Math * 256 + b17
+
+            Dim Sub4Math As String
+            Sub4Math = b24                     ' Starts From The Right
+            Sub4Math = Sub4Math * 256 + b23
+            Sub4Math = Sub4Math * 256 + b22
+            Sub4Math = Sub4Math * 256 + b21
+
+            Dim OutputString As String
+
+            OutputString = ("S-" & b1 & "-" & strIAMath & "-" &
+               Sub1Math & "-" & Sub2Math & "-" & Sub3Math & "-" & Sub4Math)
+
+            tbOutputString.Text = OutputString
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
     End Sub
-
     Private Sub sCount5()
         Try
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            Dim text2 As String
-            Dim text5 As String
-            Dim text6 As String
-            Dim text7 As String
-            Dim text8 As String
-            Dim text9 As String
-            Dim text10 As String
-            Dim text11 As String
-            Dim text12 As String
-            Dim text13 As String
-            Dim text14 As String
-            Dim text15 As String
-            Dim text16 As String
-            Dim text17 As String
-            Dim text18 As String
-            Dim text19 As String
-            Dim text20 As String
-            Dim text21 As String
-            Dim text22 As String
-            Dim text23 As String
-            Dim text24 As String
-            Dim text25 As String
-            Dim text26 As String
-            Dim text27 As String
-            Dim text28 As String
-            Dim text29 As String
-            Dim text30 As String
-            ' The following expression was wrapped in a checked-statement
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            Dim b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13,
+              b14, b15, b16, b17, b18, b19, b20, b21, b22, b23,
+              b24, b25, b26, b27, b28 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
             Next
-            text2 = Conversions.ToString(collection(1))
-            Dim text3 As String = Conversions.ToString(collection(2))
-            Dim text4 As String = Conversions.ToString(collection(3))
-            text5 = Conversions.ToString(collection(4))
-            text6 = Conversions.ToString(collection(5))
-            text7 = Conversions.ToString(collection(6))
-            text8 = Conversions.ToString(collection(7))
-            text9 = Conversions.ToString(collection(8))
-            text10 = Conversions.ToString(collection(9))
-            text11 = Conversions.ToString(collection(10))
-            text12 = Conversions.ToString(collection(11))
-            text13 = Conversions.ToString(collection(12))
-            text14 = Conversions.ToString(collection(13))
-            text15 = Conversions.ToString(collection(14))
-            text16 = Conversions.ToString(collection(15))
-            text17 = Conversions.ToString(collection(16))
-            text18 = Conversions.ToString(collection(17))
-            text19 = Conversions.ToString(collection(18))
-            text20 = Conversions.ToString(collection(19))
-            text21 = Conversions.ToString(collection(20))
-            text22 = Conversions.ToString(collection(21))
-            text23 = Conversions.ToString(collection(22))
-            text24 = Conversions.ToString(collection(23))
-            text25 = Conversions.ToString(collection(24))
-            text26 = Conversions.ToString(collection(25))
-            text27 = Conversions.ToString(collection(26))
-            text28 = Conversions.ToString(collection(27))
-            text29 = Conversions.ToString(collection(28))
-            Me.tbRevision.Text = text2
-            Me.tbSubIDCount.Text = text3
-            Me.tbIA1.Text = text4
-            Me.tbIA2.Text = text5
-            Me.tbIA3.Text = text6
-            Me.tbIA4.Text = text7
-            Me.tbIA5.Text = text8
-            Me.tbIA6.Text = text9
-            Me.tb1ID1.Text = text10
-            Me.tb1ID2.Text = text11
-            Me.tb1ID3.Text = text12
-            Me.tb1ID4.Text = text13
-            Me.tb2ID1.Text = text14
-            Me.tb2ID2.Text = text15
-            Me.tb2ID3.Text = text16
-            Me.tb2ID4.Text = text17
-            Me.tb3ID1.Text = text18
-            Me.tb3ID2.Text = text19
-            Me.tb3ID3.Text = text20
-            Me.tb3ID4.Text = text21
-            Me.tb4ID1.Text = text22
-            Me.tb4ID2.Text = text23
-            Me.tb4ID3.Text = text24
-            Me.tb4ID4.Text = text25
-            Me.tb5ID1.Text = text26
-            Me.tb5ID2.Text = text27
-            Me.tb5ID3.Text = text28
-            Me.tb5ID4.Text = text29
-            text30 = text4
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text5))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text6))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text7))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text8))
-            text30 = Conversions.ToString(Conversions.ToDouble(text30) * 256.0 + Conversions.ToDouble(text9))
-            Dim text31 As String = text13
-            text31 = Conversions.ToString(Conversions.ToDouble(text31) * 256.0 + Conversions.ToDouble(text12))
-            text31 = Conversions.ToString(Conversions.ToDouble(text31) * 256.0 + Conversions.ToDouble(text11))
-            text31 = Conversions.ToString(Conversions.ToDouble(text31) * 256.0 + Conversions.ToDouble(text10))
-            Dim text32 As String = text17
-            text32 = Conversions.ToString(Conversions.ToDouble(text32) * 256.0 + Conversions.ToDouble(text16))
-            text32 = Conversions.ToString(Conversions.ToDouble(text32) * 256.0 + Conversions.ToDouble(text15))
-            text32 = Conversions.ToString(Conversions.ToDouble(text32) * 256.0 + Conversions.ToDouble(text14))
-            Dim text33 As String = text21
-            text33 = Conversions.ToString(Conversions.ToDouble(text33) * 256.0 + Conversions.ToDouble(text20))
-            text33 = Conversions.ToString(Conversions.ToDouble(text33) * 256.0 + Conversions.ToDouble(text19))
-            text33 = Conversions.ToString(Conversions.ToDouble(text33) * 256.0 + Conversions.ToDouble(text18))
-            Dim text34 As String = text25
-            text34 = Conversions.ToString(Conversions.ToDouble(text34) * 256.0 + Conversions.ToDouble(text24))
-            text34 = Conversions.ToString(Conversions.ToDouble(text34) * 256.0 + Conversions.ToDouble(text23))
-            text34 = Conversions.ToString(Conversions.ToDouble(text34) * 256.0 + Conversions.ToDouble(text22))
-            Dim text35 As String = text29
-            text35 = Conversions.ToString(Conversions.ToDouble(text35) * 256.0 + Conversions.ToDouble(text28))
-            text35 = Conversions.ToString(Conversions.ToDouble(text35) * 256.0 + Conversions.ToDouble(text27))
-            text35 = Conversions.ToString(Conversions.ToDouble(text35) * 256.0 + Conversions.ToDouble(text26))
-            Dim text36 As String = String.Concat(New String() {"S-", text2, "-", text30, "-", text31, "-", text32, "-", text33, "-", text34, "-", text35})
-            Me.tbOutputString.Text = text36
-        Catch expr_6A6 As Exception
-            ProjectData.SetProjectError(expr_6A6)
-            Dim ex As Exception = expr_6A6
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
-            ProjectData.ClearProjectError()
+
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte ' Satrt Auth.
+            b3 = SidStrCol(3)         ' SID_IDENTIFIER_AUTHORITY  6 bytes
+            b4 = SidStrCol(4)         ' 2
+            b5 = SidStrCol(5)         ' 3
+            b6 = SidStrCol(6)         ' 4
+            b7 = SidStrCol(7)         ' 5
+            b8 = SidStrCol(8)         ' 6 'Start Sub 1
+            b9 = SidStrCol(9)         ' Sub Authority 1           4 bytes
+            b10 = SidStrCol(10)       ' 2
+            b11 = SidStrCol(11)       ' 3
+            b12 = SidStrCol(12)       ' 4
+            ' Everything before here is the minimum that will go
+            ' in Will need to check the sub id count after this.
+            b13 = SidStrCol(13)       ' Sub Authority 2           4 bytes
+            b14 = SidStrCol(14)       ' 2
+            b15 = SidStrCol(15)       ' 3
+            b16 = SidStrCol(16)       ' 4 'Sub ID count = 2 All above
+            b17 = SidStrCol(17)       ' Sub Authority 3           4 bytes
+            b18 = SidStrCol(18)       ' 2
+            b19 = SidStrCol(19)       ' 3
+            b20 = SidStrCol(20)       ' 4 ' Sub ID Count = 3 All Above
+            b21 = SidStrCol(21)       ' Sub Authority 4           4 bytes
+            b22 = SidStrCol(22)       ' 2
+            b23 = SidStrCol(23)       ' 3
+            b24 = SidStrCol(24)       ' 4 ' Sub ID Count = 4 All Above
+            b25 = SidStrCol(25)       ' Sub Authority 5 (RID)     4 bytes
+            b26 = SidStrCol(26)       ' 2
+            b27 = SidStrCol(27)       ' 3
+            b28 = SidStrCol(28)       ' 4   (Last byte in the array / Collection)
+            'Sub ID Count = 5 then All 28 Bytes will be used.
+            tbRevision.Text = b1
+            tbSubIDCount.Text = b2
+            'Text boxes SID_IDENTIFIER_AUTHORITY
+            tbIA1.Text = b3
+            tbIA2.Text = b4
+            tbIA3.Text = b5
+            tbIA4.Text = b6
+            tbIA5.Text = b7
+            tbIA6.Text = b8
+            'Text boxes sub 1
+            tb1ID1.Text = b9
+            tb1ID2.Text = b10
+            tb1ID3.Text = b11
+            tb1ID4.Text = b12
+
+            ' Text boxes Sub 2
+            tb2ID1.Text = b13
+            tb2ID2.Text = b14
+            tb2ID3.Text = b15
+            tb2ID4.Text = b16
+            ' Text boxes Sub 3
+            tb3ID1.Text = b17
+            tb3ID2.Text = b18
+            tb3ID3.Text = b19
+            tb3ID4.Text = b20
+            ' Text boxes Sub 4
+            tb4ID1.Text = b21
+            tb4ID2.Text = b22
+            tb4ID3.Text = b23
+            tb4ID4.Text = b24
+            ' Tex boxes Sub 5
+            tb5ID1.Text = b25
+            tb5ID2.Text = b26
+            tb5ID3.Text = b27
+            tb5ID4.Text = b28
+            'IA Math
+            Dim strIAMath As String
+            strIAMath = b3
+            strIAMath = strIAMath * 256 + b4
+            strIAMath = strIAMath * 256 + b5
+            strIAMath = strIAMath * 256 + b6
+            strIAMath = strIAMath * 256 + b7
+            strIAMath = strIAMath * 256 + b8
+
+            Dim Sub1Math As String
+            Sub1Math = b12                      ' Starts From The Right
+            Sub1Math = (Sub1Math * 256) + b11
+            Sub1Math = (Sub1Math * 256) + b10
+            Sub1Math = (Sub1Math * 256) + b9
+
+            Dim Sub2Math As String
+            Sub2Math = b16                     ' Starts From The Right
+            Sub2Math = (Sub2Math * 256) + b15
+            Sub2Math = (Sub2Math * 256) + b14
+            Sub2Math = (Sub2Math * 256) + b13
+
+            Dim Sub3Math As String
+            Sub3Math = b20                     ' Starts From The Right
+            Sub3Math = Sub3Math * 256 + b19
+            Sub3Math = Sub3Math * 256 + b18
+            Sub3Math = Sub3Math * 256 + b17
+
+            Dim Sub4Math As String
+            Sub4Math = b24                     ' Starts From The Right
+            Sub4Math = Sub4Math * 256 + b23
+            Sub4Math = Sub4Math * 256 + b22
+            Sub4Math = Sub4Math * 256 + b21
+
+            Dim sub5Math As String
+            sub5Math = b28                      ' Starts From The Right
+            sub5Math = sub5Math * 256 + b27
+            sub5Math = sub5Math * 256 + b26
+            sub5Math = sub5Math * 256 + b25
+
+            Dim OutputString As String
+
+            OutputString = ("S-" & b1 & "-" & strIAMath & "-" &
+               Sub1Math & "-" & Sub2Math & "-" & Sub3Math & "-" &
+               Sub4Math & "-" & sub5Math)
+
+            tbOutputString.Text = OutputString
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information, "Some Kind Of Error Happened")
         End Try
     End Sub
-
-    Private Sub lblAbout_Click(sender As Object, e As EventArgs)
-        MyProject.Forms.AboutBox1.Show()
+    Private Sub lblAbout_Click(sender As System.Object,
+                 e As System.EventArgs) Handles lblAbout.Click
+        AboutBox1.Show()
     End Sub
-
-    Private Sub lnklblSelfAdsiorg_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
-        Process.Start("Iexplore", "http://www.selfadsi.org/deep-inside/microsoft-sid-attributes.htm")
+    Private Sub lnklblSelfAdsiorg_LinkClicked(sender As System.Object,
+             e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnklblSelfAdsiorg.LinkClicked
+        Process.Start("Iexplore",
+          "http://www.selfadsi.org/deep-inside/microsoft-sid-attributes.htm")
     End Sub
-
-    Private Sub tbInputString_TextChanged(sender As Object, e As EventArgs)
-        ' The following expression was wrapped in a checked-statement
+    Private Sub tbInputString_TextChanged(sender As System.Object,
+             e As System.EventArgs) Handles tbInputString.TextChanged
         Try
-            Me.tbOutputString.Clear()
-            Me.tbRevision.Clear()
-            Me.tbSubIDCount.Clear()
-            Me.tbIA1.Clear()
-            Me.tbIA2.Clear()
-            Me.tbIA3.Clear()
-            Me.tbIA4.Clear()
-            Me.tbIA5.Clear()
-            Me.tbIA6.Clear()
-            Me.tb1ID1.Clear()
-            Me.tb1ID2.Clear()
-            Me.tb1ID3.Clear()
-            Me.tb1ID4.Clear()
-            Me.tb2ID1.Clear()
-            Me.tb2ID2.Clear()
-            Me.tb2ID3.Clear()
-            Me.tb2ID4.Clear()
-            Me.tb3ID1.Clear()
-            Me.tb3ID2.Clear()
-            Me.tb3ID3.Clear()
-            Me.tb3ID4.Clear()
-            Me.tb4ID1.Clear()
-            Me.tb4ID2.Clear()
-            Me.tb4ID3.Clear()
-            Me.tb4ID4.Clear()
-            Me.tb5ID1.Clear()
-            Me.tb5ID2.Clear()
-            Me.tb5ID3.Clear()
-            Me.tb5ID4.Clear()
-            Dim text As String = Me.tbInputString.Text
-            Dim collection As Collection = New Collection()
-            Dim expression As String = text.TrimEnd(New Char() {","c})
-            Dim array As String() = Strings.Split(expression, ",", -1, CompareMethod.Binary)
-            Dim array2 As String() = array
-            For i As Integer = 0 To array2.Length - 1
-                Dim item As String = array2(i)
-                collection.Add(item, Nothing, Nothing, Nothing)
+            tbOutputString.Clear()
+            tbRevision.Clear()
+            tbSubIDCount.Clear()
+
+            tbIA1.Clear()
+            tbIA2.Clear()
+            tbIA3.Clear()
+            tbIA4.Clear()
+            tbIA5.Clear()
+            tbIA6.Clear()
+            'Text boxes sub 1            tb1ID1.Clear()
+            tb1ID2.Clear()
+            tb1ID3.Clear()
+            tb1ID4.Clear()
+
+            ' Text boxes Sub 2            tb2ID1.Clear()
+            tb2ID2.Clear()
+            tb2ID3.Clear()
+            tb2ID4.Clear()
+            ' Text boxes Sub 3            tb3ID1.Clear()
+            tb3ID2.Clear()
+            tb3ID3.Clear()
+            tb3ID4.Clear()
+            ' Text boxes Sub 4            tb4ID1.Clear()
+            tb4ID2.Clear()
+            tb4ID3.Clear()
+            tb4ID4.Clear()
+            ' Tex boxes Sub 5            tb5ID1.Clear()
+            tb5ID2.Clear()
+            tb5ID3.Clear()
+            tb5ID4.Clear()
+
+            Dim b1, b2 As String
+            Dim RawSid As String
+            RawSid = tbInputString.Text
+            Dim SidStrCol As New Collection
+            Dim TrmdRawSID As String = RawSid.TrimEnd(",")
+            Dim stary() As String = Split(TrmdRawSID, ",", -1)
+
+            For Each strByte In stary
+                SidStrCol.Add(strByte)
             Next
-            Dim count As Integer = collection.Count
-            Dim text2 As String = Conversions.ToString(collection(1))
-            Dim value As String = Conversions.ToString(collection(2))
-            Me.lblArrayCount.Text = "SID Length = " + count.ToString()
-            If Conversions.ToDouble(value) = 1.0 And count <> 12 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 1 and Byte count should be 12", MsgBoxStyle.Information, "Input Verification Error 1")
-            ElseIf Conversions.ToDouble(value) = 2.0 And count <> 16 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 2 and Byte count should be 16", MsgBoxStyle.Information, "Input Verification Error 2")
-            ElseIf Conversions.ToDouble(value) = 3.0 And count <> 20 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 3 and Byte count should be 20", MsgBoxStyle.Information, "Input Verification Error 3")
-            ElseIf Conversions.ToDouble(value) = 4.0 And count <> 24 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 4 and Byte count should be 24", MsgBoxStyle.Information, "Input Verification Error 4")
-            ElseIf Conversions.ToDouble(value) = 5.0 And count <> 28 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 5 and Byte count should be 28", MsgBoxStyle.Information, "Input Verification Error 5")
-            ElseIf count > 28 Then
-                Interaction.MsgBox("Please Double Check your Input String Length" & vbCrLf & "Sub Id Count Should be 5 or less and Byte count should be 28 or less", MsgBoxStyle.Information, "Input Verification Error To Many Bytes")
+            Dim colcnt As Integer
+            colcnt = SidStrCol.Count
+            b1 = SidStrCol(1)         ' Revision Number           1 byte
+            b2 = SidStrCol(2)         ' Sub ID Count              1 byte
+            lblArrayCount.Text = "SID Length = " & colcnt.ToString
+            'Below Checks the the proper amount of bytes
+            'are present for the given SID Sub Count
+            If b2 = 1 And colcnt <> 12 Then
+                MsgBox("Please Double Check your Input String Length" &
+                   vbNewLine & "Sub Id Count Should be 1 and Byte count should be 12",
+                   MsgBoxStyle.Information, "Input Verification Error 1")
+
+            ElseIf b2 = 2 And colcnt <> 16 Then
+                MsgBox("Please Double Check your Input String Length" & vbNewLine &
+                   "Sub Id Count Should be 2 and Byte count should be 16",
+                   MsgBoxStyle.Information, "Input Verification Error 2")
+
+            ElseIf b2 = 3 And colcnt <> 20 Then
+                MsgBox("Please Double Check your Input String Length" &
+                   vbNewLine & "Sub Id Count Should be 3 and Byte count should be 20",
+                   MsgBoxStyle.Information, "Input Verification Error 3")
+
+            ElseIf b2 = 4 And colcnt <> 24 Then
+                MsgBox("Please Double Check your Input String Length" &
+                   vbNewLine & "Sub Id Count Should be 4 and Byte count should be 24",
+                   MsgBoxStyle.Information, "Input Verification Error 4")
+
+            ElseIf b2 = 5 And colcnt <> 28 Then
+                MsgBox("Please Double Check your Input String Length" &
+                  vbNewLine & "Sub Id Count Should be 5 and Byte count should be 28",
+                  MsgBoxStyle.Information, "Input Verification Error 5")
+
+            ElseIf colcnt > 28 Then
+                MsgBox("Please Double Check your Input String Length" &
+                  vbNewLine & "Sub Id Count Should be 5 or less " &
+                  "and Byte count should be 28 or less",
+                  MsgBoxStyle.Information,
+                  "Input Verification Error To Many Bytes")
             End If
-        Catch expr_2F6 As Exception
-            ProjectData.SetProjectError(expr_2F6)
-            Dim ex As Exception = expr_2F6
-            Interaction.MsgBox(ex.Message, MsgBoxStyle.Information, "Some Error happened while Checking SID Length")
-            ProjectData.ClearProjectError()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information,
+               "Some Error happened while Checking SID Length")
         End Try
     End Sub
-
 End Class

@@ -1,5 +1,6 @@
 ﻿Imports System
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 
 ' General Information about an assembly is controlled through the following
@@ -7,29 +8,16 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
-<Assembly: AssemblyTitle("ConvertSIDByteArayToSIDStirng")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyVersion("1.2.0.8")>
+<Assembly: Debuggable(DebuggableAttribute.DebuggingModes.[Default] Or DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)>
+<Assembly: AssemblyCompany("PC's Xcetra")>
+<Assembly: AssemblyCopyright("Copyright © PC's Xcetra 2011")>
+<Assembly: AssemblyDescription("Converting any given SID from ByteArray")>
+<Assembly: AssemblyFileVersion("1.2.0.8")>
 <Assembly: AssemblyProduct("ConvertSIDByteArayToSIDStirng")>
-<Assembly: AssemblyCopyright("Copyright ©  2022")>
+<Assembly: AssemblyTitle("ConvertSIDByteArayToSIDStirng")>
 <Assembly: AssemblyTrademark("")>
-
+<Assembly: CompilationRelaxations(8)>
+<Assembly: RuntimeCompatibility(WrapNonExceptionThrows:=True)>
 <Assembly: ComVisible(False)>
-
-'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("7cbd85a6-3052-461d-a646-a152f53507b9")>
-
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version
-'      Build Number
-'      Revision
-'
-' You can specify all the values or you can default the Build and Revision Numbers
-' by using the '*' as shown below:
-' <Assembly: AssemblyVersion("1.0.*")>
-
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: Guid("9e6f2791-22e0-48f4-a3a0-1f430c5b95eb")>
