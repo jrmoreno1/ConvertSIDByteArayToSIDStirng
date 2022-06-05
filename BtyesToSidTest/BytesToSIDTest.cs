@@ -52,17 +52,17 @@ namespace BytesToSidTest
             foreach (var test in  testData)
             {
                 //arrange
-                var bytes = TransformBytesToSID.GetSidByteCol(test.csvInput);
+                var bytes = SidHelper.GetSidByteCol(test.csvInput);
                 //act
-                var b2Sid = new TransformBytesToSID(bytes);
-                var b2SidMannino = new TransformBytesToSID(bytes, true);
+                var b2SidP = new TransformBytesToSID_pcsxcetrasupport3(bytes);
+                var b2SidM = new TransformBytesToSID_miromannino(bytes);
 
                 //assert
-                Assert.AreEqual(test.sections, b2Sid.SectionCount);
-                Assert.AreEqual(test.expected, b2Sid.SID);
+                Assert.AreEqual(test.sections, b2SidP.SectionCount);
+                Assert.AreEqual(test.expected, b2SidP.SID);
 
-                Assert.AreEqual(b2SidMannino.SectionCount, b2Sid.SectionCount);
-                Assert.AreEqual(b2SidMannino.SID, b2Sid.SID);
+                Assert.AreEqual(b2SidM.SectionCount, b2SidP.SectionCount);
+                Assert.AreEqual(b2SidM.SID, b2SidP.SID);
 
             }
         }

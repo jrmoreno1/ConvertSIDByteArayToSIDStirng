@@ -79,7 +79,9 @@
     <Compile Include="About.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppCode\TransformBytesToSID.vb" />
+    <Compile Include="AppCode\SidHelper.vb" />
+    <Compile Include="AppCode\TransformBytesToSID_miromannino.vb" />
+    <Compile Include="AppCode\TransformBytesToSID_pcsxcetrasupport3.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

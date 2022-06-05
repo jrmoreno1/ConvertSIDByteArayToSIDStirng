@@ -32,12 +32,12 @@ Public Class Form1
     Private Sub btnConvert_Click(sender As System.Object,
              e As System.EventArgs) Handles btnConvert.Click
         Try
-            Dim b2Sid = New TransformBytesToSID(tbInputString.Text)
+            Dim b2Sid = New TransformBytesToSID_pcsxcetrasupport3(tbInputString.Text)
 
             tbOutputString.Text = b2Sid.SID
             UISections(b2Sid.SectionCount, b2Sid.Bytes)
 
-        Catch ex As TransformBytesToSID.CountTooHigh
+        Catch ex As TransformBytesToSID_pcsxcetrasupport3.CountTooHigh
             MsgBox(ex.Message,
                    MsgBoxStyle.Information, "Sub ID Count To High")
         Catch ex As Exception
@@ -99,7 +99,7 @@ Public Class Form1
                 tb.Clear()
             Next
 
-            Dim SidByteCol = TransformBytesToSID.GetSidByteCol(tbInputString.Text)
+            Dim SidByteCol = SidHelper.GetSidByteCol(tbInputString.Text)
 
             Dim colCount As Integer
             colCount = SidByteCol.Count
