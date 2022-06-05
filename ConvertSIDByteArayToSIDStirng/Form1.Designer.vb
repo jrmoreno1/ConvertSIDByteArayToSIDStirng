@@ -110,6 +110,7 @@ Partial Public Class Form1
     <DebuggerNonUserCode()>
     Public Sub New()
         Me.InitializeComponent()
+        MyInit()
     End Sub
 
     <DebuggerNonUserCode()>
